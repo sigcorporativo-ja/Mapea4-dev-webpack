@@ -1,0 +1,15 @@
+{
+  parser: "babel-eslint",
+  rules: {
+    no-unused-expressions: 1,
+    no-undef: 1,
+    semi: 1
+  },
+  globals: {
+    M: true
+  },
+  env: {
+    node: true,
+    browser: true
+  }
+}

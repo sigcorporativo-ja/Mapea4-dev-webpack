@@ -1,0 +1,62 @@
+{
+  "name": "Mapea4-dev",
+  "version": "5.0.0",
+  "description": "Proyecto de ayuda para el desarrollo de plugins de Mapea 4",
+  "keywords": [
+    "map",
+    "mapping",
+    "tool",
+    "sigcorporativo-ja",
+    "mapea4"
+  ],
+  "homepage": "http://mapea4-sigc.juntadeandalucia.es",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sigcorporativo-ja/mapeaJS.git"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sigcorporativo-ja/mapeaJS/issues"
+  },
+  "scripts": {
+    "start": "cross-env NODE_ENV=development node compile-utils/tasks/build-plugin/index.dev.js",
+    "start-debug": "cross-env NODE_ENV=development node --inspect --debug-brk compile-utils/tasks/build-plugin/index.dev.js",
+    "build": "cross-env NODE_ENV=production node compile-utils/tasks/build-plugin/index.js",
+    "build-debug": "cross-env NODE_ENV=production node --inspect --debug-brk compile-utils/tasks/build-plugin/index.js",
+    "create-plugin": "node compile-utils/tasks/create-plugin/index.js",
+    "test-build": "node compile-utils/tasks/test-plugin/index.js",
+    "clean-build": "rm -rf build",
+    "check-plugins": "node node_modules/eslint/bin/eslint.js plugins",
+    "fix-plugins": "node node_modules/eslint/bin/eslint.js --fix plugins"
+  },
+  "author": "",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.2.1",
+    "babel-loader": "^7.1.2",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-transform-decorators-legacy": "^1.3.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015-webpack": "^6.4.3",
+    "babel-preset-es2016": "^6.24.1",
+    "cross-env": "^5.1.1",
+    "css-loader": "^0.28.9",
+    "eslint": "^4.16.0",
+    "eslint-loader": "^1.9.0",
+    "extract-text-webpack-plugin": "^3.0.2",
+    "fs-extra": "^5.0.0",
+    "handlebars": "^4.0.11",
+    "handlebars-loader": "^1.6.0",
+    "html-loader": "^0.5.5",
+    "html-webpack-harddisk-plugin": "^0.1.0",
+    "html-webpack-plugin": "^2.30.1",
+    "http-server": "^0.11.1",
+    "minimist": "^1.2.0",
+    "supports-color": "^5.1.0",
+    "webpack": "^3.8.1",
+    "webpack-dev-middleware": "^2.0.4",
+    "webpack-dev-server": "^2.11.0",
+    "webpack-hot-middleware": "^2.21.0",
+    "webpack-sources": "^1.1.0"
+  }
+}

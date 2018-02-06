@@ -1,0 +1,5 @@
+.m-{{archetype.plugin.id}} {
+   top: 10px;
+   position: absolute;
+   left: 400px;
+}
