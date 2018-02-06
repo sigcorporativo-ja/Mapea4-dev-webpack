@@ -19,10 +19,11 @@ if (params.name == null || typeof params.name != 'string') {
   if (plugins.length === 0) {
     console.error(`plugins/${name} folder not found`);
   } else {
+    let port = isNaN(parseInt(params.port)) ? "6123" : params.port;
     config = Util.genWebpackConfig(name, config);
     let compiler = webpack(config);
     new webpackDevServer(compiler, config.devServer)
-      .listen('8000', 'localhost', (err) => {
+      .listen(port, 'localhost', (err) => {
         if (err) {
           console.error(err);
         }
@@ -32,8 +33,8 @@ if (params.name == null || typeof params.name != 'string') {
       if (initialCompilation) {
         setTimeout(() => {
           console.info('✓ The bundle is now ready for serving!\n');
-          console.info(' Open in iframe mode:\t\x1b[33mhttp://' + 'localhost' + ':' + '8000' + '/webpack-dev-server/\x1b[0m');
-          console.info(' Open in inline mode:\t\x1b[33mhttp://' + 'localhost' + ':' + '8000' + '/\x1b[0m\n');
+          console.info(' Open in iframe mode:\t\x1b[33mhttp://' + 'localhost' + ':' + port + '/webpack-dev-server/\x1b[0m');
+          console.info(' Open in inline mode:\t\x1b[33mhttp://' + 'localhost' + ':' + port + '/\x1b[0m\n');
           console.info(' \x1b[33mHMR is active\x1b[0m. The bundle will automatically rebuild and live-update on changes.')
         }, 750);
       }
