@@ -3,7 +3,8 @@
   rules: {
     no-unused-expressions: 1,
     no-undef: 1,
-    semi: 1
+    semi: 1,
+    no-console: ["warn", {allow:["warn", "error", "info"]}]
   },
   globals: {
     M: true

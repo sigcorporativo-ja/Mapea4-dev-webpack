@@ -16,7 +16,7 @@ Tarea que crea la estructura para un nuevo plugin. Solicita nombre del plugin:
 ```shell
 $ npm run create-plugin -- --name=miplugin
 ```
-> :point_right:  <a> Para la guía de desarrollo, supondremos que hemos proporcionado el nombre de '**miPlugin**' </a>  
+> :point_right:  <a> Para la guía de desarrollo, supondremos que hemos proporcionado el nombre de **'miPlugin'** </a>  
 
 Creará la estructura de directorios y los ficheros necesarios para la construcción de un plugin dentro de la carpeta '_plugins/miplugin_'. Este plugin recién creado recibe el nombre de **arquetipo**, e incluye una funcionalidad básica de ejemplo 'Hola mundo'.
 
@@ -26,9 +26,12 @@ En este punto, **deberemos desarrollar la funcionalidad específica de nuestro p
 
 Aunque en su fase final un plugin se compilará y generará un único fichero js, durante la fase de desarrollo el código fuente del mismo se organiza en varios ficheros. Para poder testear el plugin:
 ```shell
-npm start -- --name=miplugin
+npm start -- --name=miplugin --port=<numero-de-puerto>
 ```
- Este comando levantará un entorno de desarrollo que se recargará la compilación de webpack automáticamente por cada vez que actualicemos el código de '_plugins/miplugin_'. El fichero html lo podemos encontrar en '_plugins/miplugin/test/dev.html_' donde escribiremos el código de pruebas para testear nuestro plugin. En el navegador accedemos a:
+> :point_right:
+Puede hacerse `npm start -- --name=miplugin` y el puerto por defecto será 6123.
+
+ Este comando levantará un entorno de desarrollo que recargará la compilación de webpack automáticamente por cada vez que actualicemos el código de '_plugins/miplugin_'. El fichero html lo podemos encontrar en '_plugins/miplugin/test/dev.html_' donde escribiremos el código de pruebas para testear nuestro plugin. En el navegador accedemos a:
 
 ```html
 http://localhost:8000
@@ -39,7 +42,7 @@ Y se nos abrirá la página _'dev.html'_.
 **2.- Check plugin**  
 Tarea para validar código con [ESLint](https://eslint.org/):
 ```shell
-$ grunt check-plugins
+$ npm run check-plugins
 ```
 También se facilita un script de npm para arreglar la mayoría de los erorres de typing que se cometen mientras se desarrolla.
 
@@ -48,7 +51,7 @@ $ npm run fix-plugins
 ```
 
 **3.- Build plugin**  
-Compila y minimiza los plugins creados. Aunque el plugin está compuesto por varios ficheros javascript y de estilo, para mejorar la eficiencia en su uso, la versión final de los plugins se compila y comprime, generando un único fichero css y un único fichero js (\*)
+Compila y minimiza los plugins creados. Aunque el plugin está compuesto por varios ficheros javascript y de estilo, para mejorar la eficiencia en su uso, la versión final de los plugins se compila y comprime, generando un único fichero css y un único fichero js:
 ```shell
 $  npm run build -- --names=miplugin
 ```
@@ -72,4 +75,3 @@ Importante haber hecho antes `npm run build` o `npm run build -- --name=miplugin
 
 > :point_right:
 Los comandos son case-insensitive excepto el comando de create-plugin, cuyo párametro name será exactamente el nombre de las clases creadas en el arquetipo. Esto quiere decir que no importa hacer `npm run build -- --names=miPlugin` o `npm run build -- --names=Miplugin`.
-
