@@ -34,7 +34,7 @@ Puede hacerse `npm start -- --name=miplugin` y el puerto por defecto será 6123.
  Este comando levantará un entorno de desarrollo que recargará la compilación de webpack automáticamente por cada vez que actualicemos el código de '_plugins/miplugin_'. El fichero html lo podemos encontrar en '_plugins/miplugin/test/dev.html_' donde escribiremos el código de pruebas para testear nuestro plugin. En el navegador accedemos a:
 
 ```html
-http://localhost:8000
+http://localhost:6123
 ```  
 Y se nos abrirá la página _'dev.html'_.
 
