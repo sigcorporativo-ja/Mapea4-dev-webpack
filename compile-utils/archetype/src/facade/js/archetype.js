@@ -1,5 +1,5 @@
 import namespace from 'util/decorator';
-import {{archetype.plugin.name }}Control from './{{archetype.plugin.id}}Control.js';
+import {{archetype.plugin.name }}Control from './{{archetype.plugin.id}}control.js';
 import css from 'assets/css/{{archetype.plugin.id}}.css';
 
 @namespace("M.plugin")

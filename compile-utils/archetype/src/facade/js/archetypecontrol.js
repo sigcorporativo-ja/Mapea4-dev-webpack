@@ -1,5 +1,5 @@
 import namespace from 'util/decorator';
-import {{archetype.plugin.name}}ImplControl from 'impl/{{archetype.plugin.id}}Control';
+import {{archetype.plugin.name}}ImplControl from 'impl/{{archetype.plugin.id}}control';
 
 @namespace("M.control")
 export class {{archetype.plugin.name}}Control extends M.Control {
