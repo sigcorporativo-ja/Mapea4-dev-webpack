@@ -55,7 +55,7 @@ module.exports = class CompileTemplatesPlugin {
         return {
           'name': template,
           'func': hbs.precompile(file)
-        }
+        };
       });
     return tplCallbacks;
   }
@@ -106,7 +106,7 @@ module.exports = class CompileTemplatesPlugin {
     compilation.assets[fileName] = new ConcatSource(
       compilation.assets[fileName],
       templatesCode
-    )
+    );
   };
 
-}
+};

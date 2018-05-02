@@ -47,6 +47,6 @@ module.exports.devServer = {
   compress: true,
   port: 8000,
   publicPath: `/`,
-}
+};
 
 module.exports.resolve = common.resolve;

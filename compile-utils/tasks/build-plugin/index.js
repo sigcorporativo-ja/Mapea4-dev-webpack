@@ -22,5 +22,5 @@ if (plugins.length !== 0) {
   (new WebpackCompiler(plugins)).compiler();
 }
 else {
-  console.info('There is no plugins to compile.')
+  console.info('There is no plugins to compile.');
 }

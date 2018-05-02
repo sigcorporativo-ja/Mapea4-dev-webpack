@@ -5,7 +5,7 @@
 const path = require('path');
 const ROOT = path.join(__dirname, '../../..');
 const parentUtils = path.join(__dirname, '../..');
-const console = require(path.resolve(parentUtils, 'util/console'))
+const console = require(path.resolve(parentUtils, 'util/console'));
 const fs = require('fs-extra');
 const colors = require('colors/safe');
 const os = require('os');

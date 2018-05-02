@@ -4,12 +4,12 @@ const parentUtils = path.join(__dirname, '../..');
 const fs = require('fs-extra');
 const params = require('minimist')(process.argv.slice(2));
 const Util = require(path.resolve(parentUtils, 'util/util'));
-const console = require(path.resolve(parentUtils, 'util/console'))
+const console = require(path.resolve(parentUtils, 'util/console'));
 
 if (params.name != null) {
   if (params.name.trim() == "") {
     console.error("Plugin name is not defined.");
-    console.warn("There are extra spaces.")
+    console.warn("There are extra spaces.");
     console.info("Use: npm run create-plugin -- --name=<name-of-plugin>");
   }
   else {
@@ -29,9 +29,9 @@ if (params.name != null) {
     // facade/js/archetype.js
     path.join(destDir, 'src', 'facade', 'js', 'archetype.js'),
     // facade/js/archetypeControl.js
-    path.join(destDir, 'src', 'facade', 'js', 'archetypeControl.js'),
+    path.join(destDir, 'src', 'facade', 'js', 'archetypecontrol.js'),
     // impl/ol/js/archetypeControl.js
-    path.join(destDir, 'src', 'impl', 'ol', 'js', 'archetypeControl.js'),
+    path.join(destDir, 'src', 'impl', 'ol', 'js', 'archetypecontrol.js'),
     // templates/archetype.html
     path.join(destDir, 'src', 'templates', 'archetype.html')];
     let tests = [
