@@ -1,5 +1,44 @@
-.m-{{archetype.plugin.id}} {
-   top: 10px;
-   position: absolute;
-   left: 400px;
+.m-panel.m-{{archetype.plugin.id}}.collapsed {
+  height: 20px;
+}
+
+
+.m-areas>div.m-area.m-right>div.m-panel>button.m-panel-btn {
+  position: absolute!important;
+  left: -40px;
+  background-color: white;
+}
+
+.g-cartografia-editar2 {
+  color: #00796B !important;
+}
+
+.g-cartografia-flecha-derecha {
+  color: #536DFE !important;
+}
+
+#enlaces {
+  padding: 10px;
+  text-decoration-style: none;
+  color: #212121;
+  transition: all 0.5s ease;
+  border-radius: 5px;
+  margin-top: 5px;
+  border: 1px solid #00796B;
+}
+
+#enlaces:hover {
+  background-color: #536DFE;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.opened {
+  background-color: #00796B;
+  width: 150px;
+  padding-bottom: 10px;
+}
+
+#div-enlaces {
+  margin-left: 15px;
 }

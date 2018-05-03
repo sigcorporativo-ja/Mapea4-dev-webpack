@@ -48,4 +48,33 @@ export class {{archetype.plugin.name}}Control extends M.impl.Control {
   deactivate() {
     M.dialog.info('Bye World!');
   }
+
+  draw(layer, mapjs, type) {
+    this.layer_ = layer;
+    let impl = this.layer_.getImpl();
+    let source = impl.getOL3Layer().getSource();
+    let vector = new ol.layer.Vector({
+      source: source
+    });
+
+    if (mapjs != null) {
+      let interaction = mapjs.getInteractions();
+      let arrayIn = interaction.getArray();
+      arrayIn.filter(function(element) {
+        return element instanceof ol.interaction.Draw;
+      }).forEach(element => mapjs.removeInteraction(element));
+
+      if (type == "Clean") {
+        source.clear();
+      }
+
+      if (type != 'None') {
+        let draw = new ol.interaction.Draw({
+          source: source,
+          type: type
+        });
+        mapjs.addInteraction(draw);
+      }
+    }
+  }
 }

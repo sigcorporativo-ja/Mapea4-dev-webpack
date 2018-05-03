@@ -30,7 +30,7 @@ module.exports = class Util {
       });
     }
     catch (ex) {
-      console.error('An error occurred while generating the configuration.')
+      console.error('An error occurred while generating the configuration.');
       console.error(ex);
     }
   }

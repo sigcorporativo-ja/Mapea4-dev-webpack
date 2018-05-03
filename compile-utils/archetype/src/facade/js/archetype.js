@@ -1,5 +1,5 @@
 import namespace from 'util/decorator';
-import {{archetype.plugin.name }}Control from './{{archetype.plugin.id}}Control.js';
+import {{archetype.plugin.name }}Control from './{{archetype.plugin.id}}control.js';
 import css from 'assets/css/{{archetype.plugin.id}}.css';
 
 @namespace("M.plugin")
@@ -50,6 +50,13 @@ class {{archetype.plugin.name}} extends M.Plugin {
   addTo(map) {
     this.controls_.push(new M.control.{{archetype.plugin.name}}Control());
     this.map_ = map;
-    this.map_.addControls(this.controls_);
+   this.panel_ = new M.ui.Panel("panelmiplugin", {
+     collapsible: true,
+     position: M.ui.position.TR,
+     className: "m-miplugin",
+     collapsedButtonClass: "g-cartografia-editar2"
+   });
+   this.panel_.addControls(this.controls_);
+   map.addPanels(this.panel_);
   }
 }

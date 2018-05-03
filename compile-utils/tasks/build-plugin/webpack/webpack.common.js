@@ -1,7 +1,7 @@
 const path = require("path");
 const ExtractTextPlugin = require("extract-text-webpack-plugin");
 const CompileTemplatesPlugin = require("./webpack-plugins/compile-templates-plugin");
-const ROOT = path.resolve(__dirname, '../../../..')
+const ROOT = path.resolve(__dirname, '../../../..');
 module.exports.buildPath = path.resolve(ROOT, 'build');
 module.exports.srcPath = path.resolve(ROOT, 'plugins');
 module.exports.devPath = path.resolve(ROOT, 'dist');
@@ -43,6 +43,6 @@ module.exports.resolve = {
       'templates': path.resolve(ROOT, `plugins/${pName}/src/templates`),
       'test': path.resolve(ROOT, `plugins/${pName}/src/test`),
       'util': path.resolve(__dirname, '../../../util')
-    }
+    };
   }
 };
