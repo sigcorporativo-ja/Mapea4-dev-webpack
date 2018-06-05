@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="mapea" content="yes">
+  <title>PLUGIN TEST</title>
+
+  <!-- styles -->
+  <link href="http://mapea4-sigc.juntadeandalucia.es/assets/css/mapea.ol.min.css" rel="stylesheet" />
+  <style rel="stylesheet">
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+  </style>
+
+  <!-- CSS plugin here -->
+  <link rel="stylesheet" href="http://localhost:6123/drawjson.css">
+
+</head>
+
+<body>
+  <!-- container -->
+  <div id="mapjs" class="container"></div>
+
+  <!-- libraries -->
+  <script type="text/javascript" src="http://mapea4-sigc.juntadeandalucia.es/vendor/browser-polyfill.js"></script>
+  <script type="text/javascript" src="http://mapea4-sigc.juntadeandalucia.es/js/mapea.ol.min.js"></script>
+
+  <!-- configuration -->
+  <script type="text/javascript" src="http://mapea4-sigc.juntadeandalucia.es/js/configuration.js"></script>
+  <!--  JS plugin here -->
+  <script type="text/javascript" src="http://localhost:6123/drawjson.ol.js"></script>
+
+
+  <script type="application/javascript">
+    var myMap = M.map({
+      container: 'mapjs'
+    });
+
+    let lyGeoJSON = new M.layer.GeoJSON({
+      name: 'draw',
+      source: {
+        "type": "FeatureCollection",
+        "features": []
+      },
+      extract: false
+    });
+
+    let lyWFS = new M.layer.WFS({
+      url: "http://geostematicos-sigc.juntadeandalucia.es/geoserver/tematicos/ows?",
+      namespace: "tematicos",
+      name: "Provincias",
+      legend: "Provincias",
+      geometry: 'MPOLYGON',
+      ids:"3,4"
+      });
+
+myMap.addWFS(lyWFS);
+
+    //TODO: crear un estilo abstracto para poder aplicarlo a capas multigeometría
+    //lyGeoJSON.setStyle(new M.style.Simple({fill:{color:'black'}}));
+
+    // create here the plugin
+    var mp = new M.plugin.drawJSON(lyGeoJSON);
+    
+    // add here the plugin into the map
+    myMap.addPlugin(mp);
+
+   
+  </script>
+</body>
+
+</html>
