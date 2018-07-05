@@ -23,58 +23,40 @@ export class {{archetype.plugin.name}}Control extends M.impl.Control {
    * @api stable
    */
   addTo(map, html) {
-    // specific code
+    //obtengo la interacción por defecto del dblclick para manejarla
+    let olMap = map.getMapImpl();
+    olMap.getInteractions().forEach(interaction => {
+      if (interaction instanceof ol.interaction.DoubleClickZoom) {
+        this.dblClickInteraction_ = interaction;
+      }
+    });
 
-    // super addTo
+    // super addTo - don't delete
     super.addTo(map, html);
   }
 
-  /**
-   *
-   * @public
-   * @function
-   * @api stable
-   */
-  activate() {
-    M.dialog.info('Hello World!');
-  }
+   //** Add your own functions */
+   activateClick(map) {
+    //desactivo el zoom al dobleclick
+    this.dblClickInteraction_.setActive(false);
 
-  /**
-   *
-   * @public
-   * @function
-   * @api stable
-   */
-  deactivate() {
-    M.dialog.info('Bye World!');
-  }
-
-  draw(layer, mapjs, type) {
-    this.layer_ = layer;
-    let impl = this.layer_.getImpl();
-    let source = impl.getOL3Layer().getSource();
-    let vector = new ol.layer.Vector({
-      source: source
+    //añado un listener al evento dblclick
+    let olMap = map.getMapImpl();
+    olMap.on('dblclick', function (evt) {
+      //disparo un custom event con las coordenadas del dobleclick
+      let customEvt = new CustomEvent('mapclicked', {
+        detail: evt.coordinate,
+        bubbles: true
+      });
+      map.getContainer().dispatchEvent(customEvt);
     });
+  }
 
-    if (mapjs != null) {
-      let interaction = mapjs.getInteractions();
-      let arrayIn = interaction.getArray();
-      arrayIn.filter(function(element) {
-        return element instanceof ol.interaction.Draw;
-      }).forEach(element => mapjs.removeInteraction(element));
+  deactivateClick(map) {
+    //activo el zoom al dobleclick
+    this.dblClickInteraction_.setActive(true);
 
-      if (type == "Clean") {
-        source.clear();
-      }
-
-      if (type != 'None') {
-        let draw = new ol.interaction.Draw({
-          source: source,
-          type: type
-        });
-        mapjs.addInteraction(draw);
-      }
-    }
+    //elimino el listener del evento
+    map.getMapImpl().removeEventListener('dblclick');
   }
 }

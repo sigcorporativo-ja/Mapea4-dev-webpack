@@ -50,13 +50,13 @@ class {{archetype.plugin.name}} extends M.Plugin {
   addTo(map) {
     this.controls_.push(new M.control.{{archetype.plugin.name}}Control());
     this.map_ = map;
-   this.panel_ = new M.ui.Panel("panelmiplugin", {
-     collapsible: true,
-     position: M.ui.position.TR,
-     className: "m-miplugin",
-     collapsedButtonClass: "g-cartografia-editar2"
-   });
-   this.panel_.addControls(this.controls_);
-   map.addPanels(this.panel_);
+  //panel para agregar control - no obligatorio
+  this.panel_ = new M.ui.Panel("panel{{archetype.plugin.name}}", {
+    collapsible: true,
+    position: M.ui.position.TR,
+    collapsedButtonClass: "g-cartografia-flecha-izquierda"
+  });
+  this.panel_.addControls(this.controls_);
+  map.addPanels(this.panel_);
   }
 }

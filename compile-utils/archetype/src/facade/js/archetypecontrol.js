@@ -16,11 +16,35 @@ export class {{archetype.plugin.name}}Control extends M.Control {
   constructor() {
     // 1. checks if the implementation can create PluginControl
     if (M.utils.isUndefined(M.impl.control.{{archetype.plugin.name}}Control)) {
-      M.exception('La implementación usada no puede crear controles PluginControl');
+      M.exception('La implementación usada no puede crear controles {{archetype.plugin.name}}Control');
     }
     // 2. implementation of this control
     let impl = new M.impl.control.{{archetype.plugin.name}}Control();
     super(impl, "{{archetype.plugin.name}}");
+
+    //** código propio */
+    //captura de eventos de des/activación del control
+    this.on(M.evt.ACTIVATED, () => {
+      let div = document.createElement("div");
+      div.id = "msgInfo";
+      div.classList.add("info");
+      div.innerHTML = "Haz doble click sobre el mapa";
+
+      this.map_.getContainer().appendChild(div);
+
+      impl.activateClick(this.map_);
+    });
+
+    this.on(M.evt.DEACTIVATED, () => {
+      let div = document.getElementById("msgInfo");
+      this.map_.getContainer().removeChild(div);
+      impl.deactivateClick(this.map_);
+    });
+
+    //captura de customevent lanzado desde impl con coords
+    window.addEventListener("mapclicked", e => {
+      this.map_.addLabel("Hola Mundo!", e.detail);
+    });
   }
   /**
    * This function creates the view
@@ -31,54 +55,37 @@ export class {{archetype.plugin.name}}Control extends M.Control {
    * @api stable
    */
    createView(map) {
-     let olmap = map.getMapImpl();
-     let layer = new M.layer.Vector();
-     map.addLayers(layer);
      return new Promise((success, fail) => {
-     return M.template.compile('{{archetype.plugin.id}}.html').then(html => {
-       let element1 = html.querySelector(".m-miplugin-punto");
-       let element2 = html.querySelector(".m-miplugin-circulo");
-       let element3 = html.querySelector(".m-miplugin-polygon");
-       let element4 = html.querySelector(".m-miplugin-linea");
-       let element5 = html.querySelector(".m-miplugin-nada");
-       let element6 = html.querySelector(".m-miplugin-clean");
-       element1.addEventListener("click", () => {
-         let tipo = "Point";
-         this.getImpl().draw(layer, olmap, tipo);
-       });
-       element2.addEventListener("click", () => {
-         let tipo = "Circle";
-         this.getImpl().draw(layer, olmap, tipo);
-       });
-       element3.addEventListener("click", () => {
-         let tipo = "Polygon";
-         this.getImpl().draw(layer, olmap, tipo);
-       });
-       element4.addEventListener("click", () => {
-         let tipo = "LineString";
-         this.getImpl().draw(layer, olmap, tipo);
-       });
-       element5.addEventListener("click", () => {
-         let tipo = "None";
-         this.getImpl().draw(layer, olmap, tipo);
-       });
-       element6.addEventListener("click", () => {
-         let tipo = "Clean";
-         this.getImpl().draw(layer, olmap, tipo);
-       });
-       success(html);
-      });
+      return M.template.compile('{{archetype.plugin.id}}.html').then(html => {
+         /** Añadir código dependiente del DOM */
+         success(html);
+        });
     });
    }
 
    /**
-    * @public
-    * @function
-    * @param {HTMLElement} html to add the plugin
-    * @api stable
-    * @export
-    */
-   getActivationButton(html) {
-     return html.querySelector('button#m-{{archetype.plugin.id}}control-button');
-   }
+   * This function gets activation button
+   *
+   * @public
+   * @function
+   * @param {HTML} html of control
+   * @api stable
+   */
+  getActivationButton(html) {
+    return html.querySelector('.m-{{archetype.plugin.id}} button');
+  };
+  
+  /**
+   * This function compares controls
+   *
+   * @public
+   * @function
+   * @param {M.Control} control to compare
+   * @api stable
+   */
+  equals(control) {
+    return control instanceof {{archetype.plugin.id}}Control;
+  }
+
+  //** Add your own functions */
 }
