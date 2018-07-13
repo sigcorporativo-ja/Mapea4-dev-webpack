@@ -8,8 +8,7 @@ module.exports = class Util {
   // Filter the name of plugins that exist in src/*
   static filterExistPlugins(names) {
     var plugins = fs.readdirSync(path.resolve(ROOT, './plugins'));
-    names = names.map(name => name.toLowerCase());
-    return names.filter(name => plugins.includes(name));
+    return names.filter(name => (plugins.includes(name) || plugins.includes(name.toLowerCase())));
   }
 
   // Generates a webpackConfig from a plugin name

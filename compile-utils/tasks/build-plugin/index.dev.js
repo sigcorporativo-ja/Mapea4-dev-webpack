@@ -17,7 +17,7 @@ if (params.name == null || typeof params.name != 'string') {
   let plugins = Util.filterExistPlugins([params.name]).map(name => name.toLowerCase());
   let name = plugins[0];
   if (plugins.length === 0) {
-    console.error(`plugins/${name} folder not found`);
+    console.error(`plugins/${params.name} folder not found`);
   } else {
     let port = isNaN(parseInt(params.port)) ? "6123" : params.port;
     config = Util.genWebpackConfig(name, config);
