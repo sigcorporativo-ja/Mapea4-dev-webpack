@@ -24,6 +24,10 @@ module.exports.loaders = [
     test: /\.(html)$/,
     loader: 'html-loader',
     exclude: /node_modules/
+}, {
+    test: /\.(woff|woff2|eot|ttf|svg)$/,
+    exclude: /node_modules/,
+    loader: 'url-loader?limit=1024&name=fonts/[name].[ext]'
 }];
 
 module.exports.plugins = [(pName) => new CompileTemplatesPlugin({
