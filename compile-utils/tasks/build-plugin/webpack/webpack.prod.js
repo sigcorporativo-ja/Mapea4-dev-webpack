@@ -35,7 +35,7 @@ module.exports.plugins = common.plugins.concat([new webpack.optimize.UglifyJsPlu
     mangle: {
       keep_fnames: true,
       props: {
-        regex: /.*?_/
+        regex: /.*?_$/
       }
     },
   }),
