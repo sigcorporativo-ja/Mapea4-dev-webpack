@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const console = require('../../../util/console');
 const config = require('./webpack.config');
 const Util = require('../../../util/util');
-const events = require('events')
+const events = require('events');
 module.exports = class WebpackCompiler {
   constructor(names) {
     this.names_ = names;
@@ -54,6 +54,6 @@ module.exports = class WebpackCompiler {
           }
         }
       });
-    })
+    });
   }
-}
+};
