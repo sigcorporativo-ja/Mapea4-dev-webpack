@@ -32,12 +32,7 @@ module.exports.module = {
 
 module.exports.plugins = common.plugins.concat([new webpack.optimize.UglifyJsPlugin({
     ecma: 6,
-    mangle: {
-      keep_fnames: true,
-      props: {
-        regex: /.*?_$/
-      }
-    },
+    mangle: false //problemas en los plugins IDEA    
   }),
   (pName) => new ExtractTextPlugin(`${pName}.min.css`),
 ]);
