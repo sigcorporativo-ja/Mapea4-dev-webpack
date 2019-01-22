@@ -1,4 +1,4 @@
-import namespace from 'util/decorator';
+import namespace from 'mapea-util/decorator';
 import {{archetype.plugin.name }}Control from './{{archetype.plugin.id}}control.js';
 import css from 'assets/css/{{archetype.plugin.id}}.css';
 

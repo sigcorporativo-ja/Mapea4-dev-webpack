@@ -1,4 +1,4 @@
-import namespace from 'util/decorator';
+import namespace from 'mapea-util/decorator';
 import {{archetype.plugin.name}}ImplControl from 'impl/{{archetype.plugin.id}}control';
 
 @namespace("M.control")

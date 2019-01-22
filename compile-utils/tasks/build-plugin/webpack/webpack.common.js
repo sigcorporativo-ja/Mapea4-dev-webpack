@@ -46,7 +46,7 @@ module.exports.resolve = {
       'impl': path.resolve(ROOT, `plugins/${pName}/src/impl/ol/js`),
       'templates': path.resolve(ROOT, `plugins/${pName}/src/templates`),
       'test': path.resolve(ROOT, `plugins/${pName}/src/test`),
-      'util': path.resolve(__dirname, '../../../util')
+      'mapea-util': path.resolve(__dirname, '../../../util')
     };
   }
 };
