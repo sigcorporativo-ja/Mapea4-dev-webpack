@@ -1,4 +1,4 @@
-import namespace from 'util/decorator';
+import namespace from 'mapea-util/decorator';
 import drawJSONImplControl from 'impl/drawjsoncontrol';
 
 let layer_;
