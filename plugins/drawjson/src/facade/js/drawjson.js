@@ -1,4 +1,4 @@
-import namespace from 'util/decorator';
+import namespace from 'mapea-util/decorator';
 import drawJSONControl from './drawjsoncontrol.js';
 import css from 'assets/css/drawjson.css';
 
