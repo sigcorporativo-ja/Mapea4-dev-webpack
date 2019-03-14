@@ -2,7 +2,9 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
 const parentUtils = path.join(ROOT, 'compile-utils');
 const fs = require('fs-extra');
-const { spawn } = require('child_process');
+const {
+  spawn
+} = require('child_process');
 const readline = require('readline');
 const chalk = require('chalk');
 const hbs = require('handlebars');
@@ -79,16 +81,25 @@ class CustomConsole {
 /**
  * @const
  */
-const customConsole = new CustomConsole({ header: '[Mapea-plugins]' })
+const customConsole = new CustomConsole({
+  header: '[Mapea-plugins]'
+})
 
 /**
  * This function install extern node libraries.
  * @function
  */
 const npmInstall = async (destDir, progressBar) => {
-  const npm = spawn('npm', ['i'], {
-    cwd: path.resolve(destDir),
-  });
+  let npm = null;
+  if (!/^win/.test(process.platform)) { // linux
+    npm = spawn('npm', ['i'], {
+      cwd: path.resolve(destDir),
+    });
+  } else { // windows
+    npm = spawn('cmd', ['/s', '/c', 'npm', 'i'], {
+      cwd: path.resolve(destDir),
+    });
+  }
 
   const arrData = [];
 
