@@ -6,10 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="mapea" content="yes">
-    <title>PLUGIN TEST</title>
-
-    <!-- styles -->
-    <link href="http://mapea4-sigc.juntadeandalucia.es/assets/css/mapea.ol.min.css" rel="stylesheet" />
+    <title>DrawJSON Production TEST</title>
+    <link href="http://sigc.desarrollo.guadaltel.es/mapea5/assets/css/mapea.ol.min.css" rel="stylesheet" />
+    <link href="../dist/drawjson.ol.min.css" rel="stylesheet" />
     <style rel="stylesheet">
       html,
       body {
@@ -20,34 +19,19 @@
       }
     </style>
 
-    <!-- CSS plugin here -->
-    <link href="../../../build/drawjson/drawjson.min.css" rel="stylesheet" />
-
   </head>
 
   <body>
-    <!-- container -->
     <div id="mapjs" class="container"></div>
-
-    <!-- libraries -->
-    <script type="text/javascript" src="http://mapea4-sigc.juntadeandalucia.es/vendor/browser-polyfill.js"></script>
-    <script type="text/javascript" src="http://mapea4-sigc.juntadeandalucia.es/js/mapea.ol.min.js"></script>
-    <!-- configuration -->
-    <script type="text/javascript" src="http://mapea4-sigc.juntadeandalucia.es/js/configuration.js"></script>
-    <!-- min js -->
-    <script src="../../../build/drawjson/drawjson.ol.min.js" charset="utf-8"></script>
-
-
-    <script type="application/javascript">
-      var myMap = M.map({
-        container: 'mapjs'
+    <script type="text/javascript" src="http://sigc.desarrollo.guadaltel.es/mapea5/js/mapea.ol.min.js"></script>
+    <script type="text/javascript" src="http://sigc.desarrollo.guadaltel.es/mapea5/js/configuration.js"></script>
+    <script type="text/javascript" src="../dist/drawjson.ol.min.js"></script>
+    <script type="text/javascript">
+      const map = M.map({
+        container: 'mapjs',
       });
-      
-      // create here the plugin
-      var mp = new M.plugin.drawJSON();
-
-      // add here the plugin into the map
-      myMap.addPlugin(mp);
+      const mp = new M.plugin.DrawJSON();
+      map.addPlugin(mp);
     </script>
   </body>
 

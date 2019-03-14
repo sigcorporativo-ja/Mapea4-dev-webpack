@@ -1,11 +1,11 @@
-import namespace from 'mapea-util/decorator';
-import drawJSONImplControl from 'impl/drawjsoncontrol';
+/**
+ * @module M/control/DrawJSONControl
+ */
 
-let layer_;
+import DrawJSONImplControl from 'impl/drawjsoncontrol';
+import template from 'templates/drawjson';
 
-@namespace("M.control")
-export class drawJSONControl extends M.Control {
-
+export default class DrawJSONControl extends M.Control {
   /**
    * @classdesc
    * Main constructor of the class. Creates a PluginControl
@@ -17,19 +17,19 @@ export class drawJSONControl extends M.Control {
    */
   constructor(layer) {
     // 1. checks if the implementation can create PluginControl
-    if (M.utils.isUndefined(M.impl.control.drawJSONControl)) {
-      M.exception('La implementación usada no puede crear controles PluginControl');
+    if (M.utils.isUndefined(DrawJSONImplControl)) {
+      M.exception('La implementación usada no puede crear controles DrawJSONControl');
     }
     // 2. implementation of this control
-    let impl = new M.impl.control.drawJSONControl();
-    super(impl, "drawJSON");
+    const impl = new DrawJSONImplControl();
+    super(impl, 'DrawJSON');
     this.layer_ = layer;
-    //TODO: estudiar si asociarlo a window puede traer algún problema
-    window.addEventListener("featureadd", e => {
+    window.addEventListener('featureadd', (e) => {
       layer.addFeatures(e.detail);
-      alert(JSON.stringify(e.detail.getGeoJSON()));
+      window.alert(JSON.stringify(e.detail.getGeoJSON()));
     });
   }
+
   /**
    * This function creates the view
    *
@@ -41,24 +41,22 @@ export class drawJSONControl extends M.Control {
   createView(map) {
     map.addLayers(this.layer_);
     return new Promise((success, fail) => {
-      return M.template.compile('drawjson.html').then(html => {
+      const html = M.template.compileSync(template);
+      html.querySelectorAll('.drawCtrl').forEach(op => op.addEventListener('click', (evt) => {
+        this.getImpl().draw(map, op.getAttribute('data-type'));
+      }));
 
-        html.querySelectorAll(".drawCtrl").forEach(op => op.addEventListener("click", () => {
-          this.getImpl().draw(map, op.getAttribute('data-type'));
-        }));
-
-        html.querySelector(".m-miplugin-clean").addEventListener("click", () => {
-          this.layer_.clear();
-          console.log("borradas features", this.layer_.getFeatures());
-        });
-
-        html.querySelector(".m-miplugin-export").addEventListener("click", () => {
-          this.layer_.getFeatures().forEach(f => {
-            console.log(f.getGeoJSON());
-          });
-        });
-        success(html);
+      html.querySelector('.m-miplugin-clean').addEventListener('click', (evt) => {
+        this.layer_.clear();
+        console.log('borradas features', this.layer_.getFeatures());
       });
+
+      html.querySelector('.m-miplugin-export').addEventListener('click', (evt) => {
+        this.layer_.getFeatures().forEach((f) => {
+          console.log(f.getGeoJSON());
+        });
+      });
+      success(html);
     });
   }
 
@@ -72,7 +70,6 @@ export class drawJSONControl extends M.Control {
   setLayer(layer) {
     this.layer_ = layer;
   }
-  
 
   /**
    * @public
@@ -84,4 +81,18 @@ export class drawJSONControl extends M.Control {
   getActivationButton(html) {
     return html.querySelector('button#m-drawjsoncontrol-button');
   }
+
+  /**
+   * This function compares controls
+   *
+   * @public
+   * @function
+   * @param {M.Control} control to compare
+   * @api stable
+   */
+  equals(control) {
+    return control instanceof DrawJSONControl;
+  }
+
+  // Add your own functions
 }

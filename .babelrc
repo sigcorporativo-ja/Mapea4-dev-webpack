@@ -1,4 +1,0 @@
-{
-  "presets": ["env", "es2016"],
-  "plugins": ["babel-plugin-add-module-exports", "transform-decorators-legacy"]
-}
