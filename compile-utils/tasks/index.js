@@ -273,6 +273,7 @@ const main = async () => {
     path.join(destDir, 'README.md'),
     path.join(destDir, 'LICENSE'),
     path.join(destDir, 'webpack-config', 'webpack.production.config.js'),
+    path.join(destDir, 'src', 'api.json'),
     path.join(destDir, 'src', 'facade', 'assets', 'css', 'archetype.css'),
     path.join(destDir, 'src', 'facade', 'js', 'archetype.js'),
     path.join(destDir, 'src', 'facade', 'js', 'archetypecontrol.js'),
