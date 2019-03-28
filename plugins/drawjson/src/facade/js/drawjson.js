@@ -1,10 +1,10 @@
-import namespace from 'mapea-util/decorator';
-import drawJSONControl from './drawjsoncontrol.js';
-import css from 'assets/css/drawjson.css';
+/**
+ * @module M/plugin/DrawJSON
+ */
+import 'assets/css/drawjson';
+import DrawJSONControl from './drawjsoncontrol';
 
-@namespace("M.plugin")
-class drawJSON extends M.Plugin {
-
+export default class DrawJSON extends M.Plugin {
   /**
    * @classdesc
    * Main facade plugin object. This class creates a plugin
@@ -16,7 +16,6 @@ class drawJSON extends M.Plugin {
    * @api stable
    */
   constructor(layer) {
-
     super();
     /**
      * Facade of the map
@@ -25,16 +24,16 @@ class drawJSON extends M.Plugin {
      */
     this.map_ = null;
 
-     /**
+    /**
      * Array of controls
      * @private
      * @type {Array<M.Control>}
      */
     this.controls_ = [];
 
-    //TODO: check if layers is compatible
-    if (typeof layer === 'undefined') layer = new M.layer.Vector();
-    this.layer_ = layer;
+    // TODO: check if layers is compatible
+    const layerParam = layer || new M.layer.Vector();
+    this.layer_ = layerParam;
   }
 
   /**
@@ -46,25 +45,25 @@ class drawJSON extends M.Plugin {
    * @api stable
    */
   addTo(map) {
-    this.controls_.push(new M.control.drawJSONControl(this.layer_));
+    this.controls_.push(new DrawJSONControl(this.layer_));
     map.addLayers(this.layer_);
     this.map_ = map;
-   this.panel_ = new M.ui.Panel("panelmiplugin", {
-     collapsible: true,
-     position: M.ui.position.TR,
-     className: "m-miplugin",
-     collapsedButtonClass: "g-cartografia-editar2"
-   });
-   this.panel_.addControls(this.controls_);
-   map.addPanels(this.panel_);
+    this.panel_ = new M.ui.Panel('panelmiplugin', {
+      collapsible: true,
+      position: M.ui.position.TR,
+      className: 'm-miplugin',
+      collapsedButtonClass: 'g-cartografia-editar2',
+    });
+    this.panel_.addControls(this.controls_);
+    map.addPanels(this.panel_);
   }
 
-  setLayer(layer){
+  setLayer(layer) {
     this.layer_ = layer;
-    this.controls_.forEach(c => c.setLayer(layer));    
+    this.controls_.forEach(c => c.setLayer(layer));
   }
 
-  getLayer(){
+  getLayer() {
     return this.layer_;
   }
 }
