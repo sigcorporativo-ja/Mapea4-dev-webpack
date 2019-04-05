@@ -23,13 +23,13 @@ const HEADER = '[Mapea-plugins]';
  * npm install question
  * @const
  */
-const ASK_NPM_INSTALL = ' Do you want Mapea-plugins install the npm dependencies? [y/n]: ';
+const ASK_NPM_INSTALL = ' Do you want Mapea-plugins installs the npm dependencies? [y/n]: ';
 
 /** 
  * Plugin name question
  * @const
  */
-const ASK_PLUGIN_NAME = ' What is the of your plugin?: ';
+const ASK_PLUGIN_NAME = ' What is the name of your plugin?: ';
 
 /** 
  * Override plugin question
