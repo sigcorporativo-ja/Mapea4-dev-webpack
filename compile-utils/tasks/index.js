@@ -2,13 +2,52 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
 const parentUtils = path.join(ROOT, 'compile-utils');
 const fs = require('fs-extra');
-const {
-  spawn
-} = require('child_process');
+const { spawn } = require('child_process');
 const readline = require('readline');
 const chalk = require('chalk');
 const hbs = require('handlebars');
 
+/** 
+ * Final message
+ * @const
+ */
+const FINAL_MSG = 'The project is ready for development. Happy coding!';
+
+/** 
+ * Header output messages 
+ * @const 
+ */
+const HEADER = '[Mapea-plugins]';
+
+/** 
+ * npm install question
+ * @const
+ */
+const ASK_NPM_INSTALL = ' Do you want Mapea-plugins installs the npm dependencies? [y/n]: ';
+
+/** 
+ * Plugin name question
+ * @const
+ */
+const ASK_PLUGIN_NAME = ' What is the name of your plugin?: ';
+
+/** 
+ * Override plugin question
+ * @const
+ */
+const OVERRIDE_ASK = '[WARN] There is already a plugin project with that name. Do you want to overwrite it? [y/n]:';
+
+/** 
+ * Name plugin warning
+ * @const
+ */
+const WARN_PLUGIN_NAME = 'Plugin name cannot be empty or contains spaces.';
+
+/** 
+ * Success message of archetype creation.
+ * @function
+ */
+const successMsg = (name, destDir) => `${name} project has been created successfully in ${destDir}.`;
 /**
  * This function replaces the content of the files of
  * plugin project with the custom class variables.
@@ -79,44 +118,39 @@ class CustomConsole {
 }
 
 /**
+ * Instance of custom console class
  * @const
  */
 const customConsole = new CustomConsole({
-  header: '[Mapea-plugins]'
-})
+  header: HEADER,
+});
 
 /**
  * This function install extern node libraries.
  * @function
+ * @async
  */
 const npmInstall = async (destDir, progressBar) => {
   let npm = null;
   if (!/^win/.test(process.platform)) { // linux
     npm = spawn('npm', ['i'], {
       cwd: path.resolve(destDir),
+      stdio: 'inherit',
     });
   } else { // windows
     npm = spawn('cmd', ['/s', '/c', 'npm', 'i'], {
       cwd: path.resolve(destDir),
+      stdio: 'inherit',
     });
   }
 
-  const arrData = [];
-
-  npm.stdout.on('data', (data) => {
-    arrData.push(data);
-  });
-
-  npm.stdout.on('close', () => {
-    progressBar.stop();
-    arrData.push('The project is ready for development. Happy coding!');
-    arrData.forEach(data => customConsole.success(data));
-  });
+  return npm;
 };
 
 /**
  * This function read the users's answer to override the folder
  * @function
+ * @async 
  */
 const overrideAsk = async () => {
   const rl = readline.createInterface({
@@ -124,7 +158,7 @@ const overrideAsk = async () => {
     output: process.stdout
   });
   return new Promise((resolve) => {
-    const question = chalk.hex('#f2a515')(' [WARN] There is already a plugin project with that name. Do you want to overwrite it? [y/n]:');
+    const question = chalk.hex('#f2a515')(OVERRIDE_ASK);
     rl.question(customConsole.header + question, (answer) => {
       resolve(answer);
       rl.close();
@@ -135,6 +169,7 @@ const overrideAsk = async () => {
 /**
  * This function read the users's answer to install node modules libraries.
  * @function
+ * @async 
  */
 const askNPMInstall = async () => {
   const rl = readline.createInterface({
@@ -142,8 +177,7 @@ const askNPMInstall = async () => {
     output: process.stdout
   });
   return new Promise((resolve) => {
-    const question = ' Do you want Mapea-plugins install the npm dependencies? [y/n]: ';
-    rl.question(customConsole.header + question, (answer) => {
+    rl.question(customConsole.header + ASK_NPM_INSTALL, (answer) => {
       resolve(answer);
       rl.close();
     });
@@ -153,16 +187,17 @@ const askNPMInstall = async () => {
 /**
  * This function read the users's answer to override the folder
  * @function
+ * @async
  */
 const getPluginName = async () => {
   customConsole.clear();
-  customConsole.warn('Plugin name can not be empty or contains spaces.');
+  customConsole.warn(WARN_PLUGIN_NAME);
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
   });
   return new Promise((resolve) => {
-    const question = ' What is the name of your plugin?: ';
+    const question = ASK_PLUGIN_NAME;
     rl.question(customConsole.header + question, async (answer) => {
       let finalAnswer = answer;
       if (finalAnswer === '' || finalAnswer.trim() !== finalAnswer || /\s/.test(finalAnswer)) {
@@ -178,63 +213,14 @@ const getPluginName = async () => {
 };
 
 /**
- * Bar object
- * @class
- */
-class Bar {
-  constructor(msg, time) {
-    this.arrBar = new Array(10).fill('.');
-    this.msg = msg;
-    this.time = time;
-    this.currentTime = 0;
-  }
-
-  /**
-   * @method
-   */
-  update(percentageParam = null) {
-    const percentage = percentageParam || (this.currentTime / this.time) * 100;
-    if (percentage % 10 === 0) {
-      for (let i = 0; i < percentage / 10; i += 1) {
-        this.arrBar[i] = '=';
-      }
-    }
-    this.drawingBar = '[' + this.arrBar.join('') + ']';
-    return `${this.msg} ${Math.round(percentage)}% ${this.drawingBar}`;
-  }
-
-  /**
-   * @method
-   */
-  start() {
-    this.idTimeout = setInterval(() => {
-      if (this.currentTime < this.time) {
-        process.stdout.clearLine();
-        process.stdout.cursorTo(0);
-        process.stdout.write(chalk.blue(`${this.update()}`));
-        this.currentTime += 1;
-      }
-    }, 1000);
-  }
-
-  /**
-   * @method
-   */
-  async stop() {
-    process.stdout.clearLine();
-    process.stdout.cursorTo(0);
-    process.stdout.write(chalk.blue(`${this.update(100)}\n`));
-    clearInterval(this.idTimeout);
-  }
-}
-
-/**
+ * Resolve the npm install task
  * @function
+ * @async
  */
 const taskNPMInstall = async (destDir) => {
-  const progressBar = new Bar(customConsole.header + ' [INFO] Executing npm install', 20);
-  progressBar.start();
-  npmInstall(destDir, progressBar).catch(error => {
+  npmInstall(destDir).then((npmProcess) => {
+    npmProcess.on('close', () => customConsole.success(FINAL_MSG));
+  }).catch(error => {
     customConsole.error(error)
   });
 };
@@ -247,17 +233,17 @@ const createArchetype = async (srcDir, destDir, name, files) => {
   fs.copySync(srcDir, destDir);
   replaceContent(files, name, name.toLowerCase());
   rename(files, name.toLowerCase());
-  customConsole.success(`${name} project has been created successfully in ${destDir}.`);
+  customConsole.success(successMsg(name, destDir));
   const answerNPMInstall = await askNPMInstall();
   if (answerNPMInstall.toLowerCase() === "y") {
     taskNPMInstall(destDir);
   } else {
-    customConsole.success('The project is ready for development. Happy coding!')
+    customConsole.success(FINAL_MSG);
   }
 }
 
 /**
- * Main functions
+ * Main task
  * @function
  */
 const main = async () => {
@@ -273,6 +259,7 @@ const main = async () => {
     path.join(destDir, 'README.md'),
     path.join(destDir, 'LICENSE'),
     path.join(destDir, 'webpack-config', 'webpack.production.config.js'),
+    path.join(destDir, 'src', 'api.json'),
     path.join(destDir, 'src', 'facade', 'assets', 'css', 'archetype.css'),
     path.join(destDir, 'src', 'facade', 'js', 'archetype.js'),
     path.join(destDir, 'src', 'facade', 'js', 'archetypecontrol.js'),
@@ -296,4 +283,7 @@ const main = async () => {
   }
 };
 
+/**
+ * Run the program
+ */
 main().catch(err => customConsole.error(err));
