@@ -1,6 +1,7 @@
 # Directorios y ficheros ignorados por git
 build/
 node_modules/
+plugins/
 node
 target
 externs

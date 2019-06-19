@@ -2,10 +2,14 @@ const path = require('path');
 const ROOT = path.join(__dirname, '..', '..');
 const parentUtils = path.join(ROOT, 'compile-utils');
 const fs = require('fs-extra');
-const { spawn } = require('child_process');
+const {
+  spawn
+} = require('child_process');
 const readline = require('readline');
 const chalk = require('chalk');
 const hbs = require('handlebars');
+
+const inquirer = require('inquirer'); //JGL: aprovechar para el resto de prompts??
 
 /** 
  * Final message
@@ -32,6 +36,13 @@ const ASK_NPM_INSTALL = ' Do you want Mapea-plugins installs the npm dependencie
 const ASK_PLUGIN_NAME = ' What is the name of your plugin?: ';
 
 /** 
+ * Mapea version question
+ * @const
+ */
+const ASK_MAPEA_VERSION = ' Choose Mapea version: ';
+const MAPEA_VERSIONS = ['5.0.0', '4.3.0'];
+
+/** 
  * Override plugin question
  * @const
  */
@@ -53,12 +64,16 @@ const successMsg = (name, destDir) => `${name} project has been created successf
  * plugin project with the custom class variables.
  * @function
  */
-const replaceContent = (files, name, id) => {
+const replaceContent = (files, name, id, version) => {
+  console.log(files)
   const hbsVar = {
     archetype: {
       plugin: {
         name,
         id,
+        mapea: {
+          version,
+        },
       },
     },
   };
@@ -213,6 +228,22 @@ const getPluginName = async () => {
 };
 
 /**
+ * This function read the users's answer to mapea version
+ * @function
+ * @async
+ */
+const getMapeaVersion = async () => {
+  const getVersion = await inquirer
+    .prompt([{
+      type: 'list',
+      name: 'mapeaVersion',
+      message: ASK_MAPEA_VERSION,
+      choices: MAPEA_VERSIONS,
+    }, ]);
+  return getVersion.mapeaVersion;
+}
+
+/**
  * Resolve the npm install task
  * @function
  * @async
@@ -229,9 +260,9 @@ const taskNPMInstall = async (destDir) => {
  * This function creates the archetype plugin
  * @function
  */
-const createArchetype = async (srcDir, destDir, name, files) => {
+const createArchetype = async (srcDir, destDir, name, version, files) => {
   fs.copySync(srcDir, destDir);
-  replaceContent(files, name, name.toLowerCase());
+  replaceContent(files, name, name.toLowerCase(), version);
   rename(files, name.toLowerCase());
   customConsole.success(successMsg(name, destDir));
   const answerNPMInstall = await askNPMInstall();
@@ -249,6 +280,7 @@ const createArchetype = async (srcDir, destDir, name, files) => {
 const main = async () => {
   fs.ensureDirSync(path.join(ROOT, 'plugins'));
   const pluginName = await getPluginName();
+  const mapeaVersion = await getMapeaVersion();
   const capitalizeName = pluginName[0].toUpperCase() + pluginName.slice(1);
   const id = pluginName.toLowerCase();
   const srcDir = path.join(parentUtils, 'archetype');
@@ -274,12 +306,12 @@ const main = async () => {
   if (existDir === true) {
     const answer = await overrideAsk();
     if (answer.toLowerCase() === 'y') {
-      createArchetype(srcDir, destDir, capitalizeName, FILES);
+      createArchetype(srcDir, destDir, capitalizeName, mapeaVersion, FILES);
     } else {
       customConsole.info('Aborted task.');
     }
   } else {
-    createArchetype(srcDir, destDir, capitalizeName, FILES);
+    createArchetype(srcDir, destDir, capitalizeName, mapeaVersion, FILES);
   }
 };
 
