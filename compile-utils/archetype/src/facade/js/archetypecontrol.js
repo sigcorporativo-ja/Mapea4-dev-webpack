@@ -39,6 +39,26 @@ export default class {{archetype.plugin.name}}Control extends M.Control {
    * @api stable
    */
   createView(map) {
+    if (!M.template.compileSync) { // JGL: retrocompatibilidad Mapea4
+      M.template.compileSync = (string, options) => {
+        let templateCompiled;
+        let templateVars = {};
+        let parseToHtml;
+        if (!M.utils.isUndefined(options)) {
+          templateVars = M.utils.extendsObj(templateVars, options.vars);
+          parseToHtml = options.parseToHtml;
+        }
+        const templateFn = Handlebars.compile(string);
+        const htmlText = templateFn(templateVars);
+        if (parseToHtml !== false) {
+          templateCompiled = M.utils.stringToHtml(htmlText);
+        } else {
+          templateCompiled = htmlText;
+        }
+        return templateCompiled;
+      };
+    }
+    
     return new Promise((success, fail) => {
       const html = M.template.compileSync(template);
       // Añadir código dependiente del DOM
