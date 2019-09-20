@@ -1,5 +1,13 @@
 {
-  "extends": "airbnb",
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module"
+  },
+  "env": {
+        "browser": true,
+        "es6": true
+  },
+  "extends": "eslint:recommended",
   "globals": {
     "M": true,
     "ol": true,
@@ -17,20 +25,9 @@
     "XMLSerializer": true
   },
   "rules": {
-    "no-underscore-dangle": ["error", { "allowAfterThis": true }],
-    "import/extensions": ["error", "never"],
-    "import/no-unresolved": "off",
-    "prefer-destructuring": "off",
-    "arrow-body-style": "off",
     "no-unused-vars": ["error", {
       "vars": "all",
       "args": "none"
-    }],
-    "class-methods-use-this": "off",
-    "no-case-declarations": "off",
-    "import/no-mutable-exports": "off",
-    "no-template-curly-in-string": "off",
-    "import/no-duplicates": "off",
-    "import/no-named-default": "off"
+    }]
   }
 }
