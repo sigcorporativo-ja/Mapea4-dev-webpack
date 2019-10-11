@@ -45,7 +45,7 @@ export default class {{archetype.plugin.name}}Control extends M.Control {
         let templateVars = {};
         let parseToHtml;
         if (!M.utils.isUndefined(options)) {
-          templateVars = M.utils.extendsObj(templateVars, options.vars);
+          templateVars = M.utils.extends(templateVars, options.vars);
           parseToHtml = options.parseToHtml;
         }
         const templateFn = Handlebars.compile(string);
