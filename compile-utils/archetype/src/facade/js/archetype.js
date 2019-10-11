@@ -3,6 +3,7 @@
  */
 import 'assets/css/{{archetype.plugin.id}}';
 import {{archetype.plugin.name}}Control from './{{archetype.plugin.id}}control';
+import api from '../../api.json'
 
 export default class {{archetype.plugin.name}} extends M.Plugin {
   /**
@@ -30,6 +31,13 @@ export default class {{archetype.plugin.name}} extends M.Plugin {
      * @type {Array<M.Control>}
      */
     this.controls_ = [];
+
+    /**
+     * Metadata from api.json
+     * @private
+     * @type {Object}
+     */
+    this.metadata_ = api.metadata;
   }
 
   /**
@@ -51,5 +59,15 @@ export default class {{archetype.plugin.name}} extends M.Plugin {
     });
     this.panel_.addControls(this.controls_);
     map.addPanels(this.panel_);
+  }
+/**
+   * This function gets metadata plugin
+   *
+   * @public
+   * @function
+   * @api stable
+   */
+  getMetadata(){
+    return this.metadata_;
   }
 }
