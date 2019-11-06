@@ -25,6 +25,7 @@
     "XMLSerializer": true
   },
   "rules": {
+    "import/no-absolute-path": "off",
     "no-unused-vars": ["error", {
       "vars": "all",
       "args": "none"
