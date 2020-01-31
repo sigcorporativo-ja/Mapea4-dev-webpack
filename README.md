@@ -1,5 +1,5 @@
 # Mapea4-dev-webpack
-#### :warning: Ya se encuentra disponible [mapea-create-plugin](https://www.npmjs.com/package/mapea-create-plugin) para la generación de plugins :warning:
+#### :warning: DEPRECATED: Esta versión ha sido reemplazada por un cliente de consola (CLI): [mapea-create-plugin](https://www.npmjs.com/package/mapea-create-plugin) para la generación de plugins :warning:
 ---
 
 Utilidad para el desarrollo de plugins en [Mapea4](https://github.com/sigcorporativo-ja/Mapea4)
