@@ -25,7 +25,7 @@
   "devDependencies": {
     "chalk": "^2.4.2",
     "fs-extra": "^5.0.0",
-    "handlebars": "^4.1.2"
+    "handlebars": "^4.7.7"
   },
   "dependencies": {
     "inquirer": "^6.3.1"
